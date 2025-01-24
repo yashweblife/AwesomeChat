@@ -1,16 +1,50 @@
 import BasicView from "@/components/Shared/BasicView";
 import useContactsList from "@/hooks/useContactsList";
 import { router, Stack } from "expo-router";
+import { useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import { Appbar, Text } from "react-native-paper";
+import { Appbar, FAB, Portal, Text } from "react-native-paper";
+
+export function AddFAB() {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <Portal>
+            <FAB.Group
+                open={open}
+                visible
+                onStateChange={({ open }) => {setOpen(open) }}
+                style={{
+                    position: "absolute",
+                    margin: 16,
+                    right: 0,
+                    bottom: 0
+                }}
+                icon="plus"
+                onPress={() => { }}
+                actions={[
+                    {
+                        icon: "account-plus",
+                        label: "New Contact",
+                        onPress: () => { }
+                    },
+                    {
+                        icon: "message-text",
+                        label: "New Room",
+                        onPress: () => { }
+                    }
+                ]}
+            />
+        </Portal>
+    )
+}
 export default function DashboardPage() {
     const { contacts } = useContactsList();
-    const handleSelectContact = (id:string) => {
+    const handleSelectContact = (id: string) => {
         router.push(`/chat/${id}`)
     }
     return (
         <BasicView>
-            
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Appbar.Header>
                 <Appbar.Content title="Dashboard" />
@@ -37,6 +71,7 @@ export default function DashboardPage() {
                     ))}
                 </View>
             </ScrollView>
+            <AddFAB />
         </BasicView>
     );
 }
