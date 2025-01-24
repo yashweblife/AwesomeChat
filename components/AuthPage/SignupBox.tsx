@@ -1,4 +1,6 @@
+import useFirebaseAuth from "@/hooks/useFirebaseAuth";
 import { router } from "expo-router";
+import { useState } from "react";
 import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 export type SignupBoxProps = {
@@ -6,9 +8,18 @@ export type SignupBoxProps = {
     callback?: () => void
 }
 export default function SignupBox({setLoginState, callback}: SignupBoxProps){
-    const handleSubmitButton = ()=>{
+    const {createNewUser} = useFirebaseAuth()
+    const [emailInput, setEmailInput] = useState("")
+    const [nameInput, setNameInput] = useState("")
+    const [passwordInput, setPasswordInput] = useState("")
+    const [confirmPasswordInput, setConfirmPasswordInput] = useState("")
+    const handleSubmitButton = async ()=>{
+        if(passwordInput !== confirmPasswordInput){return}
+        const didCreateUser = await createNewUser(emailInput, nameInput, passwordInput)
         if(callback){callback()}
-        router.push("/(auth)")
+        if(didCreateUser){
+            router.push("/(auth)")
+        }
     }
     return(
         <View
@@ -26,10 +37,10 @@ export default function SignupBox({setLoginState, callback}: SignupBoxProps){
                     fontSize:20
                 }}
             >Create Account</Text>
-            <TextInput mode="outlined" label="Email"/>
-            <TextInput mode="outlined" label="Name"/>
-            <TextInput mode="outlined" label="Password"/>
-            <TextInput mode="outlined" label="ConfirmPassword"/>
+            <TextInput onChangeText={setEmailInput} value={emailInput} mode="outlined" label="Email"/>
+            <TextInput onChangeText={setNameInput} value={nameInput} mode="outlined" label="Name"/>
+            <TextInput onChangeText={setPasswordInput} value={passwordInput} mode="outlined" label="Password"/>
+            <TextInput onChangeText={setConfirmPasswordInput} value={confirmPasswordInput} mode="outlined" label="ConfirmPassword"/>
             <View 
                 style={{
                     flexDirection:"row",

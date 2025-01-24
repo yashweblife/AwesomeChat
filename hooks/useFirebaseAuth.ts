@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import useFirebase from "./useFirebase";
@@ -12,6 +13,7 @@ export default function useFirebaseAuth(){
             if (user) {
                 setUser(user);
             } else {
+                router.push("/")
             }
         });
     
@@ -29,8 +31,10 @@ export default function useFirebaseAuth(){
             const user = await createUserWithEmailAndPassword(auth, email, password);
             await createNewUserStore(user.user.uid, name)
             setUser(user.user);
+            return true
         } catch (error) {
             console.error(error);
+            return false
         }
     }
     const logoutUser = async () => {
