@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import useFirebase from "./useFirebase";
 import useFireStore from "./useFireStore";
 
-export default function useFirebaseAuth(){
-    const {auth} = useFirebase()
-    const {createNewUserStore} = useFireStore()
+export default function useFirebaseAuth() {
+    const { auth } = useFirebase()
+    const { createNewUserStore } = useFireStore()
     const [user, setUser] = useState(auth.currentUser);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -16,20 +16,20 @@ export default function useFirebaseAuth(){
                 router.push("/")
             }
         });
-    
+
         return () => unsubscribe();
     }, [auth])
     const loginUser = async (email: string, password: string) => {
         try {
             const user = await signInWithEmailAndPassword(auth, email, password);
-            if(user.user){setUser(user.user)}
+            if (user.user) { setUser(user.user) }
             return true
         } catch (error) {
             console.error(error);
             return false
         }
     }
-    const createNewUser = async (email: string,name:string, password: string) => {
+    const createNewUser = async (email: string, name: string, password: string) => {
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password);
             await createNewUserStore(user.user.uid, name)
@@ -47,6 +47,6 @@ export default function useFirebaseAuth(){
             console.error(error);
         }
     }
-    
-    return {loginUser, createNewUser, logoutUser, user}
+
+    return { loginUser, createNewUser, logoutUser, user }
 }

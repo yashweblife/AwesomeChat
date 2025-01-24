@@ -3,10 +3,10 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import { useTheme } from "react-native-paper";
 import AuthBox from "../components/AuthPage/AuthBox";
-export default function AuthPage(){
-    const {colors} = useTheme();
+export default function AuthPage() {
+    const { colors } = useTheme();
     return (
-        <SafeAreaView 
+        <SafeAreaView
             style={{
                 flex: 1,
                 backgroundColor: colors.background,

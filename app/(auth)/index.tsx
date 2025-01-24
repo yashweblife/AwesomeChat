@@ -7,13 +7,12 @@ import { Appbar, FAB, Portal, Text } from "react-native-paper";
 
 export function AddFAB() {
     const [open, setOpen] = useState(false);
-
     return (
         <Portal>
             <FAB.Group
                 open={open}
                 visible
-                onStateChange={({ open }) => {setOpen(open) }}
+                onStateChange={({ open }) => { setOpen(open) }}
                 style={{
                     position: "absolute",
                     margin: 16,
