@@ -1,4 +1,6 @@
+import useFirebaseAuth from "@/hooks/useFirebaseAuth";
 import { router } from "expo-router";
+import { useState } from "react";
 import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 export type LoginBoxProps = {
@@ -6,9 +8,15 @@ export type LoginBoxProps = {
     callback?: () => void
 }
 export default function LoginBox({setLoginState, callback}: LoginBoxProps){
-    const handleSubmitButton = ()=>{
+    const [emailInput, setEmailInput] = useState("")
+    const [passwordInput, setPasswordInput] = useState("")
+    const {loginUser} = useFirebaseAuth()
+    const handleSubmitButton = async ()=>{
+        const didLogin = await loginUser(emailInput, passwordInput)
         if(callback){callback()}
-        router.push("/(auth)")
+        if(didLogin){
+            router.push("/(auth)")
+        }
     }
     return(
         <View
@@ -26,8 +34,8 @@ export default function LoginBox({setLoginState, callback}: LoginBoxProps){
                     fontSize:20
                 }}
             >Login</Text>
-            <TextInput mode="outlined" label="Email"/>
-            <TextInput mode="outlined" label="Password"/>
+            <TextInput onChangeText={setEmailInput} value={emailInput} mode="outlined" label="Email"/>
+            <TextInput onChangeText={setPasswordInput} value={passwordInput} mode="outlined" label="Password"/>
             <View 
                 style={{
                     flexDirection:"row",
