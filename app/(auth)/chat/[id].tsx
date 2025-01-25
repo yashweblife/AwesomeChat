@@ -20,7 +20,7 @@ export default function ChatPage() {
             <Stack.Screen name="chat" options={{ headerShown: false }} />
             <Appbar.Header>
                 <Appbar.BackAction onPress={() => { router.back() }} />
-                <Appbar.Content title={recipient.name} />
+                <Appbar.Content title={recipient.name} onPress={()=>{router.push(`/(auth)/chat/settings/${id}`)}} />
                 <Appbar.Action icon="menu" onPress={() => { }} />
             </Appbar.Header>
             <ScrollView>
