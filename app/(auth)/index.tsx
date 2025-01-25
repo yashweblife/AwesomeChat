@@ -16,7 +16,7 @@ export function AddFAB() {
     const handleNewRoomAdd = () => { closeNewRoomModal() }
     const handleNewContactAdd = () => { closeNewContactModal() }
     return (
-        <Portal>
+        <Portal.Host>
             <FAB.Group
                 open={open}
                 visible
@@ -78,7 +78,7 @@ export function AddFAB() {
                     </Card.Actions>
                 </Card>
             </Modal>
-        </Portal>
+        </Portal.Host>
     )
 }
 export function Header() {
