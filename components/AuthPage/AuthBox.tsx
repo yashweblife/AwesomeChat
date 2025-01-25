@@ -1,10 +1,16 @@
+import useFirebaseAuth from "@/hooks/useFirebaseAuth";
+import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import LoginBox from "./LoginBox";
 import SignupBox from "./SignupBox";
 
 export default function AuthBox() {
-    const [loginState, setLoginState] = useState(false);
+    const [loginState, setLoginState] = useState(true);
+    const {user} = useFirebaseAuth();
+    if(user) {
+        router.push("/(auth)")
+    }
     return (
         <View
             style={{
